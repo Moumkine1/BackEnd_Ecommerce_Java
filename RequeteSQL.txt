@@ -1,0 +1,26 @@
+Requete SQL pour créér la Table ressources dans la base de données : 
+
+J'ai utilisé Float à la place de Double car j'ai rencontré un probleme pour créer un double dans ma base de données 
+   --------------------------------------------------------------------------------------------------------------------------------
+Requete : 
+
+CREATE TABLE `appalten`.`products` ( `id` INT(11) NOT NULL , `code` VARCHAR(255) NOT NULL , `name` VARCHAR(255) NOT NULL , `description` VARCHAR(255) NOT NULL , `price` FLOAT(10) NOT NULL , `quantity` INT(10) NOT NULL , `inventoryStatus` VARCHAR(255) NOT NULL , `category` VARCHAR(255) NOT NULL , `image` VARCHAR(255) NOT NULL , `rating` INT(10) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+Requete pour remplir la table ressources avec les données du fichiers products.json
+
+Requete : 
+
+
+INSERT INTO  products (id,code,name,description,price,quantity,inventoryStatus,category,image,rating) VALUES (1000 ,'f230fh0g3','Bamboo Watch','Product Description',65,24,'INSTOCK','Accessories','bamboo-watch.jpg',5),(1001,'nvklal433','Black Watch','Product Description',
+72,61,'INSTOCK','Accessories','black-watch.jpg',4), ......ect(1029,'gwuby345v','Yoga Set','Product Description',20,25,'INSTOCK','Fitness'
+,'yoga-set.jpg',8);
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+ 
