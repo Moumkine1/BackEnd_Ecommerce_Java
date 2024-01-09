@@ -1,0 +1,7 @@
+Remarque : 
+
+J'ai remarqué que dans le service du front sous angular il manque la fonction getElementById il n y a pas de methode http get pour un element spécifique.
+
+
+J'ai fait les tests sur postman et tout marche bien le Get, Get(id), Post, Patch(id), Delete(id)
+
