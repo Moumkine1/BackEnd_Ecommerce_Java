@@ -1,9 +1,15 @@
 package app.alten.ecommerce.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,17 +20,32 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
-
+	@JsonView(views.ViewBase.class)
+	int idProduct;
+	@JsonView(views.ViewBase.class)
 	String code;
+	@JsonView(views.ViewBase.class)
 	String name;
+	@JsonView(views.ViewBase.class)
 	String description;
+	@JsonView(views.ViewBase.class)
 	float price;
+	@JsonView(views.ViewBase.class)
 	int quantity;
+	
+	@Column(name="inventoryStatus")
+	@JsonView(views.ViewBase.class)
 	String inventoryStatus;
+	@JsonView(views.ViewBase.class)
 	String category;
+	@JsonView(views.ViewBase.class)
 	String image;
+	@JsonView(views.ViewBase.class)
 	int rating;
+	
+	@ManyToMany
+	@JsonView(views.ViewClient.class)
+	List<Client> client;
 	
 	
 	
@@ -33,14 +54,12 @@ public class Product {
 	public int getRating() {
 		return rating;
 	}
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
+	
 	public Product() {
 		super();
 	}
 	public Product(String code, String name, String description, float price, int quantity, String inventoryStatus,
-			String category, String image, int number) {
+			String category, String image, int rating) {
 		super();
 		this.code = code;
 		this.name = name;
@@ -50,13 +69,14 @@ public class Product {
 		this.inventoryStatus = inventoryStatus;
 		this.category = category;
 		this.image = image;
+        this.rating=rating;
 	
 	}
-	public int getId() {
-		return id;
+	public int getIdProduct() {
+		return idProduct;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setIdProduct(int id) {
+		this.idProduct = idProduct;
 	}
 	public String getCode() {
 		return code;
@@ -106,6 +126,13 @@ public class Product {
 	public void setImage(String image) {
 		this.image = image;
 	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+        
+        
 	
 
 	

@@ -32,6 +32,7 @@ public class ProductRessource {
 	 
 	
 	@GetMapping("")
+	@CrossOrigin(origins = "http://localhost:4200/admin")
 	public List<Product> getAllProduct(){
 	
 	return repository.findAll();
@@ -39,6 +40,7 @@ public class ProductRessource {
 	}
 	
 	@GetMapping("/{id}")
+	@CrossOrigin(origins = "http://localhost:4200/admin")
 	public Optional<Product> getProduct(@PathVariable int id ) {
 		
 		Optional<Product> product = repository.findById(id);
@@ -56,6 +58,7 @@ public class ProductRessource {
 	
 	
 	@PostMapping("")
+	@CrossOrigin(origins = "http://localhost:4200/admin")
 	public Product createProduct(@RequestBody Product product) {
 	
 		repository.save(product);
@@ -65,6 +68,7 @@ public class ProductRessource {
 	}
 	
     @PatchMapping("/{id}")
+    @CrossOrigin(origins = "http://localhost:4200/admin")
     public Product updateProduct(@PathVariable  int id, @RequestBody Product prod ) {
     	
     	if ( !repository.existsById(id)) {
@@ -114,6 +118,7 @@ public class ProductRessource {
     
 
 	@DeleteMapping("/{id}")
+	@CrossOrigin(origins = "http://localhost:4200/admin")
 	public void deleteProduct(@PathVariable int id ) {
 		
 		
