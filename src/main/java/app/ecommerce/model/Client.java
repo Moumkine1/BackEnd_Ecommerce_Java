@@ -1,4 +1,4 @@
-package app.alten.ecommerce.model;
+package app.ecommerce.model;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class Client extends Compte {
 	@JsonView(views.ViewBase.class)
 	String telephone;
 	@JsonView(views.ViewBase.class)
-	String email;
+	String mail;
 	
 	@ManyToMany
 	@JsonView(views.ViewProduitClient.class)
@@ -25,12 +25,12 @@ public class Client extends Compte {
 	           inverseJoinColumns=@JoinColumn(name="idCompte"))
     List<Product> listeProduits ;
  	
-	public Client(String username, String password, String nom, String prenom, String telephone, String email) {
+	public Client(String username, String password, String nom, String prenom, String telephone, String mail) {
 		super(username, password);
 		this.nom = nom;
 		this.prenom = prenom;
 		this.telephone = telephone;
-		this.email = email;
+		this.mail = mail;
 	}
 	public Client() {
 		super();
@@ -58,11 +58,11 @@ public class Client extends Compte {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
-	public String getEmail() {
-		return email;
+	public String getMail() {
+		return mail;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setMail(String email) {
+		this.mail = mail;
 	}
 	
 	

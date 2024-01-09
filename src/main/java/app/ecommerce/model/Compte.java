@@ -1,4 +1,4 @@
-package app.alten.ecommerce.model;
+package app.ecommerce.model;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 

@@ -1,4 +1,4 @@
-package app.alten.ecommerce.controller;
+package app.ecommerce.controller;
 
 
 
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import app.alten.ecommerce.dao.ICompteRepository;
-import app.alten.ecommerce.dao.dto.AuthDto;
-import app.alten.ecommerce.model.Compte;
+import app.ecommerce.controller.DTO.AuthDto;
+import app.ecommerce.dao.ICompteRepository;
+import app.ecommerce.model.Compte;
 
 @RestController
 @RequestMapping("/connexion")

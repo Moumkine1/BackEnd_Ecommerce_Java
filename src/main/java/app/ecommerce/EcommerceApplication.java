@@ -1,4 +1,4 @@
-package app.alten.ecommerce;
+package app.ecommerce;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

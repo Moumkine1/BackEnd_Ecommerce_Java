@@ -1,4 +1,4 @@
-package app.alten.ecommerce.model;
+package app.ecommerce.model;
 
 public class views {
 	

@@ -1,4 +1,4 @@
-package app.alten.ecommerce.dao;
+package app.ecommerce.dao;
 
 import java.util.Optional;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import app.alten.ecommerce.model.Compte;
+import app.ecommerce.model.Compte;
 
 public interface ICompteRepository extends JpaRepository<Compte, Integer> {
 	

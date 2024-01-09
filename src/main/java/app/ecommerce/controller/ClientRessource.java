@@ -1,4 +1,4 @@
-package app.alten.ecommerce.controller;
+package app.ecommerce.controller;
 
 import java.util.List;
 
@@ -18,12 +18,11 @@ import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
-
-import app.alten.ecommerce.dao.IAdminRepository;
-import app.alten.ecommerce.dao.IClientRepository;
-import app.alten.ecommerce.dao.ICompteRepository;
-import app.alten.ecommerce.model.Client;
-import app.alten.ecommerce.model.views;
+import app.ecommerce.dao.IAdminRepository;
+import app.ecommerce.dao.IClientRepository;
+import app.ecommerce.dao.ICompteRepository;
+import app.ecommerce.model.Client;
+import app.ecommerce.model.views;
 
 
 @RestController

@@ -1,4 +1,4 @@
-package app.alten.ecommerce.dao.dto;
+package app.ecommerce.controller.DTO;
 
 public class AuthDto {
 	
@@ -7,12 +7,8 @@ public class AuthDto {
 	
 	
 
+	public AuthDto() {};
 	
-	
-	public AuthDto() {
-		
-		// TODO Auto-generated constructor stub
-	}
 	public String getUsername() {
 		return username;
 	}
@@ -24,6 +20,6 @@ public class AuthDto {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
 
-}
 }
