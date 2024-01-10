@@ -8,5 +8,7 @@ public class views {
 	
 	public static class ViewProduitClient extends ViewClient {}
 	
+	public static class ViewClientsProduits extends ViewClient  {}
+	
 	public static class ViewConnexion extends ViewBase{}
 }

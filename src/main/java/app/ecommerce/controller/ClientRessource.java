@@ -63,7 +63,7 @@ public class ClientRessource {
 //		if (result.hasErrors()) {
 //			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Le client n'a pu être créé");
 //		}
-		client= daoCompte.save(client);
+		client= daoClient.save(client);
 		
 		return client;
 		
@@ -72,7 +72,7 @@ public class ClientRessource {
 	@PutMapping("/{id}")
 	@JsonView(views.ViewConnexion.class)
 	public Client updateClient(@PathVariable Integer id, @RequestBody Client client) {
-		if (id != client.getIdCompte() || !daoClient.existsById(id)) {
+		if (id != client.getIdCompte() || ! daoClient.existsById(id)) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 

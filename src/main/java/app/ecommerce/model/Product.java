@@ -2,14 +2,22 @@ package app.ecommerce.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,9 +51,10 @@ public class Product {
 	@JsonView(views.ViewBase.class)
 	int rating;
 	
-	@ManyToMany
-	@JsonView(views.ViewClient.class)
-	List<Client> client;
+	@OneToMany(mappedBy="produitPrincipale")
+	//@JsonView(views.ViewBase.class)
+	@JsonIgnore
+	 List<Client>  clients;
 	
 	
 	
@@ -58,9 +67,11 @@ public class Product {
 	public Product() {
 		super();
 	}
-	public Product(String code, String name, String description, float price, int quantity, String inventoryStatus,
-			String category, String image, int rating) {
+	
+	public Product(int idProduct, String code, String name, String description, float price, int quantity,
+			String inventoryStatus, String category, String image, int rating, List<Client> clients) {
 		super();
+		this.idProduct = idProduct;
 		this.code = code;
 		this.name = name;
 		this.description = description;
@@ -69,9 +80,10 @@ public class Product {
 		this.inventoryStatus = inventoryStatus;
 		this.category = category;
 		this.image = image;
-        this.rating=rating;
-	
+		this.rating = rating;
+		this.clients = clients;
 	}
+
 	public int getIdProduct() {
 		return idProduct;
 	}

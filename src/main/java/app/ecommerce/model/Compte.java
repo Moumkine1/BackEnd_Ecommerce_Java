@@ -1,6 +1,9 @@
 package app.ecommerce.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
@@ -8,25 +11,33 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
+import jakarta.persistence.ManyToOne;
 
 
 @Entity
 @Inheritance(strategy = jakarta.persistence.InheritanceType.JOINED)
 @DiscriminatorColumn(name="type_compte",columnDefinition = "ENUM('admin','client')")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className")
+/*@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className")*/
 public abstract class Compte {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@JsonView(views.ViewBase.class)
 	int idCompte;
 	
+	@JsonView(views.ViewBase.class)
 	String username;
+	@JsonView(views.ViewBase.class)
 	String password;
 	
 	
-	
-	
-	
+	public Compte(int idCompte, String username, String password) {
+		super();
+		this.idCompte = idCompte;
+		this.username = username;
+		this.password = password;
+	}
+
 	public Compte(String username, String password) {
 		super();
 		this.username = username;

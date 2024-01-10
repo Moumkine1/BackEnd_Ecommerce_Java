@@ -2,6 +2,9 @@ package app.ecommerce.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.*;
@@ -18,20 +21,29 @@ public class Client extends Compte {
 	@JsonView(views.ViewBase.class)
 	String mail;
 	
-	@ManyToMany
-	@JsonView(views.ViewProduitClient.class)
-	@JoinTable(name="produit_client",
-	           joinColumns=@JoinColumn(name="idProduct"), 
-	           inverseJoinColumns=@JoinColumn(name="idCompte"))
-    List<Product> listeProduits ;
+	@ManyToOne
+	//@JsonView(views.ViewProduitClient.class)
+	@JsonView(views.ViewBase.class)
+	@JoinColumn(name="id_produit")
+    Product produitPrincipale;
  	
-	public Client(String username, String password, String nom, String prenom, String telephone, String mail) {
-		super(username, password);
+	public Client(int idCompte, String username, String password, String nom, String prenom, String telephone,
+			String mail, Product produitPrincipale) {
+		super(idCompte, username, password);
 		this.nom = nom;
 		this.prenom = prenom;
 		this.telephone = telephone;
 		this.mail = mail;
+		this.produitPrincipale = produitPrincipale;
 	}
+
+	
+	
+	public Client(int idCompte, String username, String password) {
+		super(idCompte, username, password);
+		// TODO Auto-generated constructor stub
+	}
+
 	public Client() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -61,7 +73,7 @@ public class Client extends Compte {
 	public String getMail() {
 		return mail;
 	}
-	public void setMail(String email) {
+	public void setMail(String mail) {
 		this.mail = mail;
 	}
 	

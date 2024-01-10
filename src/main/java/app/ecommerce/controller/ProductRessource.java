@@ -11,13 +11,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import app.ecommerce.dao.IProductRepository;
 import app.ecommerce.model.Product;
+import app.ecommerce.model.views;
 
 
 
@@ -71,7 +75,8 @@ public class ProductRessource {
     @CrossOrigin(origins = "http://localhost:4200/admin")
     public Product updateProduct(@PathVariable  int id, @RequestBody Product prod ) {
     	
-    	if ( !repository.existsById(id)) {
+    	if (!repository.existsById(id)) {
+    		
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		} 
     	
