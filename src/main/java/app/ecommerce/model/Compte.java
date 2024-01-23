@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonView;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,8 +17,8 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 @Inheritance(strategy = jakarta.persistence.InheritanceType.JOINED)
-@DiscriminatorColumn(name="type_compte",columnDefinition = "ENUM('admin','client')")
-/*@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className")*/
+@DiscriminatorColumn(name="type_compte",columnDefinition = "ENUM('Admin','Client')")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "className")
 public abstract class Compte {
 	
 	@Id
@@ -28,9 +29,19 @@ public abstract class Compte {
 	@JsonView(views.ViewBase.class)
 	String username;
 	@JsonView(views.ViewBase.class)
+	@Column(name = "password", columnDefinition = "TEXT")
 	String password;
+	@JsonView(views.ViewBase.class)
+	String token;
 	
-	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public Compte(int idCompte, String username, String password) {
 		super();
 		this.idCompte = idCompte;

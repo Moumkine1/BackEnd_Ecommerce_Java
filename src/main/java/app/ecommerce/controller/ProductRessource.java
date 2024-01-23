@@ -1,5 +1,6 @@
 package app.ecommerce.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.function.ServerRequest.Headers;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
 import app.ecommerce.dao.IProductRepository;
+import app.ecommerce.model.ListeProduits;
 import app.ecommerce.model.Product;
 import app.ecommerce.model.views;
 
@@ -31,21 +34,33 @@ import app.ecommerce.model.views;
 public class ProductRessource {
 	
 	
+	
 	@Autowired
 	IProductRepository repository; 
 	 
 	
 	@GetMapping("")
-	@CrossOrigin(origins = "http://localhost:4200/admin")
-	public List<Product> getAllProduct(){
+	@CrossOrigin(origins = "http://localhost:4200")
+	public ListeProduits getAllProduct(){
+	 
+		ArrayList<Product> res = new ArrayList<Product>() ;
+		
+		ListeProduits resultat = new ListeProduits();
+		
+		
+		
+	res.addAll((repository.findAll()));
 	
-	return repository.findAll();
+	resultat.setList(res);
+	return resultat;
+	
+	
 		
 	}
 	
 	@GetMapping("/{id}")
-	@CrossOrigin(origins = "http://localhost:4200/admin")
-	public Optional<Product> getProduct(@PathVariable int id ) {
+	@CrossOrigin(origins = "http://localhost:4200")
+	public Product getProduct(@PathVariable int id ) {
 		
 		Optional<Product> product = repository.findById(id);
 		
@@ -54,7 +69,7 @@ public class ProductRessource {
 			
 		}
 		
-		return product;
+		return product.get();
 		
 		
 	}
@@ -62,7 +77,7 @@ public class ProductRessource {
 	
 	
 	@PostMapping("")
-	@CrossOrigin(origins = "http://localhost:4200/admin")
+	@CrossOrigin(origins = "http://localhost:4200")
 	public Product createProduct(@RequestBody Product product) {
 	
 		repository.save(product);
@@ -72,7 +87,7 @@ public class ProductRessource {
 	}
 	
     @PatchMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:4200/admin")
+    @CrossOrigin(origins = "http://localhost:4200")
     public Product updateProduct(@PathVariable  int id, @RequestBody Product prod ) {
     	
     	if (!repository.existsById(id)) {
@@ -123,7 +138,7 @@ public class ProductRessource {
     
 
 	@DeleteMapping("/{id}")
-	@CrossOrigin(origins = "http://localhost:4200/admin")
+	@CrossOrigin(origins = "http://localhost:4200")
 	public void deleteProduct(@PathVariable int id ) {
 		
 		

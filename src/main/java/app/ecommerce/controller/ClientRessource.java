@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +47,7 @@ public class ClientRessource {
 	}
 	@GetMapping("/{id}")
 	@JsonView(views.ViewConnexion.class)
-	public Optional<Client> findByIdClient(@PathVariable Integer id) {
+	public Client findByIdClient(@PathVariable Integer id) {
 		Optional<Client> client = daoClient.findById(id);
 		
 		
@@ -55,14 +56,22 @@ public class ClientRessource {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
 
-		return client;
+		return client.get();
 	}
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	
 	@PostMapping("")
+	@CrossOrigin(origins = "http://localhost:4200")
 	public Client create( @RequestBody Client client/*, BindingResult result*/) {
 //		if (result.hasErrors()) {
 //			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Le client n'a pu être créé");
 //		}
+		
+		String encodedPassword = passwordEncoder.encode(client.getPassword());
+	    client.setPassword(encodedPassword);
 		client= daoClient.save(client);
 		
 		return client;

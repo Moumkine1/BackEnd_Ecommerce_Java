@@ -1,8 +1,5 @@
 package app.ecommerce.filter;
 
-
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,10 +10,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import app.ecommerce.service.UserDetailService;
 import app.ecommerce.util.JwtUtil;
+import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.FilterChain;
 
 import java.io.IOException;
 
@@ -25,52 +22,33 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtil jwtUtil;
+
     @Autowired
     private UserDetailService service;
 
-
-	/*
-	 * @Override protected void doFilterInternal(HttpServletRequest
-	 * httpServletRequest, HttpServletResponse httpServletResponse, FilterChain
-	 * filterChain) throws ServletException, IOException {
-	 * 
-	 * String authorizationHeader = httpServletRequest.getHeader("Authorization");
-	 * 
-	 * String token = null; String userName = null;
-	 * 
-	 * if (authorizationHeader != null && authorizationHeader.startsWith("Bearer "))
-	 * { token = authorizationHeader.substring(7); userName =
-	 * jwtUtil.extractUsername(token); }
-	 * 
-	 * if (userName != null &&
-	 * SecurityContextHolder.getContext().getAuthentication() == null) {
-	 * 
-	 * UserDetails userDetails = service.loadUserByUsername(userName);
-	 * 
-	 * if (jwtUtil.validateToken(token, userDetails)) {
-	 * 
-	 * UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new
-	 * UsernamePasswordAuthenticationToken(userDetails, null,
-	 * userDetails.getAuthorities()); usernamePasswordAuthenticationToken
-	 * .setDetails(new
-	 * WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-	 * SecurityContextHolder.getContext().setAuthentication(
-	 * usernamePasswordAuthenticationToken); } }
-	 * filterChain.doFilter(httpServletRequest, httpServletResponse); }
-	 */
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        // Ajoutez des logs pour suivre le chemin de la requête
+        System.out.println("Request path: " + request.getRequestURI());
+
         String authorizationHeader = request.getHeader("Authorization");
 
         String token = null;
         String username = null;
+
+        // Vérifiez le chemin de la requête
+        if (request.getRequestURI().equals("/connexion")) {
+            // Ne validez pas le jeton pour la requête de connexion
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
             username = jwtUtil.extractUsername(token);
         }
 
+        // Vérifiez si le jeton est présent
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = service.loadUserByUsername(username);
 
@@ -84,5 +62,4 @@ public class JwtFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-	
 }
