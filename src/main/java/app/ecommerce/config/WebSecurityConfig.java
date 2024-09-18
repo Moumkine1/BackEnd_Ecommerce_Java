@@ -66,7 +66,7 @@ public class WebSecurityConfig    {
 	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	     .authorizeHttpRequests(auth -> {
 			try {
-				auth.requestMatchers("/connexion","/products","/subscribe","/products/{id}","/panier","/client","/client/{idClient}/affecterProduit/{idProduct}").permitAll()
+				auth.requestMatchers("/connexion","/products","/subscribe","/products/{id}","/panier").permitAll()
 						 .requestMatchers("/client","/admin").authenticated()
 						 .and()
 				         .exceptionHandling()

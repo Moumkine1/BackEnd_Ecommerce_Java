@@ -39,7 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String username = null;
 
         // Vérifiez le chemin de la requête
-        if (request.getRequestURI().equals("/connexion")|| request.getRequestURI().equals("/products") || request.getRequestURI().equals("/subscribe")|| request.getRequestURI().equals("/panier")|| request.getRequestURI().equals("/client/{idClient}/affecterProduit/{idProduct}")) {
+        if (request.getRequestURI().equals("/connexion")|| request.getRequestURI().equals("/products") || request.getRequestURI().equals("/subscribe")|| request.getRequestURI().equals("/panier")) {
             // Ne validez pas le jeton pour la requête de connexion,products,subscribe,panier
             filterChain.doFilter(request, response);
             return;
