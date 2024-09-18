@@ -1,6 +1,10 @@
 package app.ecommerce.model;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -24,43 +30,77 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="products")
-public class Product {
+
+public class Product implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
+  @Column(nullable=false)
 	@JsonView(views.ViewBase.class)
-	int idProduct;
+	private int idProduct;
 	@JsonView(views.ViewBase.class)
-	String code;
+	private String code;
 	@JsonView(views.ViewBase.class)
-	String name;
+	private String name;
 	@JsonView(views.ViewBase.class)
-	String description;
+	private String description;
 	@JsonView(views.ViewBase.class)
-	float price;
+	private Float price;
 	@JsonView(views.ViewBase.class)
-	int quantity;
+	private Integer quantit;
 	
 	@Column(name="inventoryStatus")
 	@JsonView(views.ViewBase.class)
-	String inventoryStatus;
+	private String inventoryStatus;
 	@JsonView(views.ViewBase.class)
-	String category;
+	private String category;
 	@JsonView(views.ViewBase.class)
-	String image;
+	@Column(nullable=false, columnDefinition="VARCHAR(255)")
+	private LinkedHashSet<String> listeImage;
 	@JsonView(views.ViewBase.class)
-	int rating;
+	private Integer rating;
 	
-	@OneToMany(mappedBy="produitPrincipale")
-	//@JsonView(views.ViewBase.class)
+	@ManyToMany(mappedBy="listeProduits")
 	@JsonIgnore
-	 List<Client>  clients;
+
+	private Set<Client> listeClients = new HashSet<Client>();
 	
 	
 	
 	
 	
-	public int getRating() {
+	
+	
+	
+	
+
+
+
+
+
+	
+
+
+	public Product(int idProduct, String code, String name, String description, Float price, Integer quantity,
+			String inventoryStatus, String category, LinkedHashSet<String> listeImage, Integer rating,
+			Set<Client> listeClients) {
+		super();
+		this.idProduct = idProduct;
+		this.code = code;
+		this.name = name;
+		this.description = description;
+		this.price = price;
+		this.quantit = quantit;
+		this.inventoryStatus = inventoryStatus;
+		this.category = category;
+		this.listeImage = listeImage;
+		this.rating = rating;
+		this.listeClients = listeClients;
+		
+	}
+
+	public Integer getRating() {
 		return rating;
 	}
 	
@@ -68,21 +108,13 @@ public class Product {
 		super();
 	}
 	
-	public Product(int idProduct, String code, String name, String description, float price, int quantity,
-			String inventoryStatus, String category, String image, int rating, List<Client> clients) {
-		super();
-		this.idProduct = idProduct;
-		this.code = code;
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.quantity = quantity;
-		this.inventoryStatus = inventoryStatus;
-		this.category = category;
-		this.image = image;
-		this.rating = rating;
-		this.clients = clients;
-	}
+	
+
+	
+
+
+
+
 
 	public int getIdProduct() {
 		return idProduct;
@@ -108,17 +140,17 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public float getPrice() {
+	public Float getPrice() {
 		return price;
 	}
-	public void setPrice(float price) {
+	public void setPrice(Float price) {
 		this.price = price;
 	}
-	public int getQuantity() {
-		return quantity;
+	public Integer getQuantit() {
+		return quantit;
 	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setQuantit(Integer quantit) {
+		this.quantit = quantit;
 	}
 	public String getInventoryStatus() {
 		return inventoryStatus;
@@ -132,16 +164,34 @@ public class Product {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	public String getImage() {
-		return image;
-	}
-	public void setImage(String image) {
-		this.image = image;
+
+	public LinkedHashSet<String> getListeImage() {
+		return listeImage;
 	}
 
-	public void setRating(int rating) {
+	public void setListeImage(LinkedHashSet<String> listeImage) {
+		this.listeImage = listeImage;
+	}
+
+	public void setRating(Integer rating) {
 		this.rating = rating;
 	}
+
+	public Set<Client> getListeClients() {
+		return listeClients;
+	}
+
+	public void setListeClients(Set<Client> listeClients) {
+		this.listeClients = listeClients;
+	}
+
+	
+
+	
+
+	
+
+	
 
         
         

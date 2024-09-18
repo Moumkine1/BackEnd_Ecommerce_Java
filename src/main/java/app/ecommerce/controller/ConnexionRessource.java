@@ -73,10 +73,18 @@ public class ConnexionRessource {
 		    		/*compte.setToken(jwtUtil.generateToken(authDto.getUsername()));*/
 		    		
 		    		
+		    		if (compte instanceof Client) {
+		    			
+		    			return (Client) compte;
+		    		}
 		    		
-		    		
+		    		if (compte instanceof Admin) {
+		    			
+		    			return (Admin) compte;
+		    		}
+		    	
 		        	
-		            return compte;
+		         
 		        }
 		    }
 		

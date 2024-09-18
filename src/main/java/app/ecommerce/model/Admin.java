@@ -7,9 +7,9 @@ import jakarta.persistence.Entity;
 @Entity
 public class Admin extends Compte {
 	@JsonView(views.ViewBase.class)
-	String nom;
+	private String nom;
 	@JsonView(views.ViewBase.class)
-	String prenom;
+	private String prenom;
 	
 	
 	

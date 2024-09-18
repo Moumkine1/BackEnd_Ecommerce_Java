@@ -1,11 +1,15 @@
 package app.ecommerce.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,29 +41,23 @@ public class ProductRessource {
 	
 	@Autowired
 	IProductRepository repository; 
+	@Autowired 
+	IProductRepository daoProduit;
 	 
 	
 	@GetMapping("")
-	@CrossOrigin(origins = "http://localhost:4200")
-	public ListeProduits getAllProduct(){
+	@PreAuthorize("permitAll()")
+	
+	public ArrayList<Product> getAllProduct(){
 	 
-		ArrayList<Product> res = new ArrayList<Product>() ;
-		
-		ListeProduits resultat = new ListeProduits();
-		
-		
-		
-	res.addAll((repository.findAll()));
-	
-	resultat.setList(res);
-	return resultat;
+
 	
 	
-		
+		return (ArrayList<Product>) repository.findAll();
 	}
 	
 	@GetMapping("/{id}")
-	@CrossOrigin(origins = "http://localhost:4200")
+	
 	public Product getProduct(@PathVariable int id ) {
 		
 		Optional<Product> product = repository.findById(id);
@@ -77,7 +75,6 @@ public class ProductRessource {
 	
 	
 	@PostMapping("")
-	@CrossOrigin(origins = "http://localhost:4200")
 	public Product createProduct(@RequestBody Product product) {
 	
 		repository.save(product);
@@ -86,8 +83,22 @@ public class ProductRessource {
 		
 	}
 	
+	@PutMapping("/{id}")
+	public Product update(@PathVariable int id, @RequestBody Product prodd) {
+    
+		System.out.println("Voici l'id "+prodd.getIdProduct());
+	    if ( !daoProduit.existsById(id)) {
+	        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+	    }
+
+	    prodd = daoProduit.save(prodd);
+
+	    return prodd;
+	}
+
+	
     @PatchMapping("/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
+   
     public Product updateProduct(@PathVariable  int id, @RequestBody Product prod ) {
     	
     	if (!repository.existsById(id)) {
@@ -109,12 +120,12 @@ public class ProductRessource {
     	if ( ! (findProd.getDescription().equals(prod.getDescription())) && prod.getDescription()!=null) {
     		findProd .setDescription(prod.getDescription());
     	}
-    	if ((findProd.getPrice()!= prod.getPrice() ) && (prod.getPrice()!=0.0)) {
+    	if ((findProd.getPrice()!= prod.getPrice() ) && (prod.getPrice()!= null)) {
 			
     		findProd .setPrice(prod.getPrice());
     	}
-    	if (findProd.getQuantity()!= prod.getQuantity() && prod.getQuantity()!= 0 ) {
-    		findProd .setQuantity(prod.getQuantity());
+    	if (findProd.getQuantit()!= prod.getQuantit() && prod.getQuantit()!= null) {
+    		findProd .setQuantit(prod.getQuantit());
     	}
     	if ( ! (findProd.getInventoryStatus().equals(prod.getInventoryStatus())) && prod.getInventoryStatus()!=null) {
     		findProd .setInventoryStatus(prod.getInventoryStatus());
@@ -122,11 +133,17 @@ public class ProductRessource {
     	if ( ! (findProd.getCategory().equals(prod.getCategory())) &&  prod.getCategory()!=null) {
     		findProd .setCategory(prod.getCategory());
     	}
-    	if ( ! (findProd.getImage().equals(prod.getImage())) && prod.getImage()!=null) {
-    		findProd .setImage(prod.getImage());
+    	if ( ! (findProd.getListeImage().equals(prod.getListeImage())) && prod.getListeImage()!=null) {
+    		
+    		LinkedHashSet<String> maListe =  new LinkedHashSet<String> (findProd.getListeImage());
+    		
+    		
+    		maListe.addAll(prod.getListeImage());
+    		findProd .setListeImage(maListe);
+    		daoProduit.setListeImage(findProd.getIdProduct(),maListe);
     	}
     	
-    	if (findProd.getRating()!= prod.getRating() && prod.getRating()!= 0 ) {
+    	if (findProd.getRating()!= prod.getRating() && prod.getRating()!= null ) {
     		findProd .setRating(prod.getRating());
     	}
     	
@@ -138,7 +155,7 @@ public class ProductRessource {
     
 
 	@DeleteMapping("/{id}")
-	@CrossOrigin(origins = "http://localhost:4200")
+	
 	public void deleteProduct(@PathVariable int id ) {
 		
 		

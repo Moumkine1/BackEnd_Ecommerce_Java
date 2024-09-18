@@ -1,5 +1,8 @@
 package app.ecommerce.controller.DTO;
 
+
+import java.time.LocalDate;
+
 public class SubscribeDto {
 	
 	private String className;
@@ -9,6 +12,7 @@ public class SubscribeDto {
 	private String prenom;
 	private String mail;
 	private String telephone;
+	private LocalDate naissance;
 	
 	
 	public SubscribeDto() {}
@@ -52,6 +56,15 @@ public class SubscribeDto {
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
+	
+
+	public LocalDate getNaissance() {
+		return naissance;
+	}
+
+	public void setNaissance(LocalDate naissance) {
+		this.naissance = naissance;
+	}
 
 	public String getMail() {
 		return mail;
@@ -69,6 +82,7 @@ public class SubscribeDto {
 		this.telephone = telephone;
 	}
 
+	
 	
 	
 	

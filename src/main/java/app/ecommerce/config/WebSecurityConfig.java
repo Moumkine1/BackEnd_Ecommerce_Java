@@ -32,6 +32,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import app.ecommerce.filter.JwtFilter;
 import app.ecommerce.point.AuthEntryPointJwt;
+import app.ecommerce.service.CustomAuthenticationEntryPoint;
 
 import java.util.Arrays;
 import java.util.List; 
@@ -50,7 +51,8 @@ public class WebSecurityConfig    {
 	  @Autowired
 	  private   AuthEntryPointJwt unauthorizedHandler;
 	  
-	  
+	    @Autowired
+	    private CustomAuthenticationEntryPoint authenticationEntryPoint;
 	
 	 @Bean
 	    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -60,12 +62,25 @@ public class WebSecurityConfig    {
 						/*
 						 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 						 .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())*/
-						 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
+						 //.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
 	        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-	     .authorizeHttpRequests(auth -> auth.requestMatchers("/connexion").permitAll()
-	        .anyRequest().authenticated());	
+	     .authorizeHttpRequests(auth -> {
+			try {
+				auth.requestMatchers("/connexion","/products","/subscribe","/products/{id}","/panier","/client","/client/{idClient}/affecterProduit/{idProduct}").permitAll()
+						 .requestMatchers("/client","/admin").authenticated()
+						 .and()
+				         .exceptionHandling()
+				             .authenticationEntryPoint(authenticationEntryPoint);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	    		 );
+	      
+	    	 
 	    
-	   http.authenticationProvider(authenticationProvider()); 
+	   http.authenticationProvider(authenticationProvider());  
 
 	   
 	   http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
@@ -106,34 +121,9 @@ public class WebSecurityConfig    {
 	  
 	 
 	  
-		/*
-		 * @Bean public CorsFilter corsFilter() { UrlBasedCorsConfigurationSource source
-		 * = new UrlBasedCorsConfigurationSource(); CorsConfiguration config = new
-		 * CorsConfiguration();
-		 * 
-		 * // Allow all origins, methods, and headers config.setAllowCredentials(true);
-		 * config.addAllowedOrigin("*"); config.addAllowedHeader("*");
-		 * config.addAllowedMethod("*");
-		 * 
-		 * source.registerCorsConfiguration("/connexion/**", config); // Adjust the path
-		 * as needed
-		 * 
-		 * return new CorsFilter(); }
-		 */
+
 	  
-		/*
-		 * @Bean public CorsConfigurationSource corsConfigurationSource() {
-		 * CorsConfiguration corsConfiguration = new CorsConfiguration(); //Make the
-		 * below setting as * to allow connection from any hos
-		 * corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200"));
-		 * corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization",
-		 * "Content-Type")); corsConfiguration.setAllowCredentials(true);
-		 * corsConfiguration.setAllowedHeaders(List.of("*"));
-		 * corsConfiguration.setMaxAge(3600L); UrlBasedCorsConfigurationSource source =
-		 * new UrlBasedCorsConfigurationSource();
-		 * source.registerCorsConfiguration("/connexion/**", corsConfiguration); return
-		 * source; }
-		 */
+	 
 	
 	}
 
