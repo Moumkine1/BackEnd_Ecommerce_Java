@@ -1,4 +1,4 @@
-package app.alten.ecommerce;
+package app.othmane.ecommerce;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
